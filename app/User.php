@@ -31,4 +31,12 @@ class User extends Authenticatable
       return $this->hasMany('App\Post');
     }
 
+    public function tasks(){
+      return $this->hasMany('App\Task', 'createdBy_id');
+    }
+
+    public function assigned(){
+      return $this->hasMany('App\Task', 'assignedTo_id');
+    }
+
 }

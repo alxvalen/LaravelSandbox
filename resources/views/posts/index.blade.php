@@ -1,3 +1,5 @@
+{{-- POSTS - Index page --}}
+
 @extends('layouts.app')
 
 @section('content')

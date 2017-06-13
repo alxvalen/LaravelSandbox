@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Task;
 
 class TasksController extends Controller
 {
@@ -14,6 +15,8 @@ class TasksController extends Controller
     public function index()
     {
         //
+        $tasks = Task::all();
+        return view('tasks.index')->with('tasks', $tasks);
     }
 
     /**
@@ -24,6 +27,7 @@ class TasksController extends Controller
     public function create()
     {
         //
+        return view('tasks.create');
     }
 
     /**
@@ -34,7 +38,22 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate fields
+        $this->validate($request, [
+          'title' => 'required'
+        ]);
+
+        // Create Task
+        $task = new Task;
+        $task->title = $request->input('title');
+        $task->description = $request->input('description');
+        $task->createdBy_id = auth()->user()->id;
+        $task->completed = false;
+        $task->save();
+
+        return redirect('/tasks')->with('success', 'Task created successfully');
+
+
     }
 
     /**
